@@ -14,10 +14,11 @@ class FiseSolicitud extends Model
     protected $fillable = [
         'cliente_id',
         'vehiculo_id',
-        'fecha_solicitud',
-        'fecha_respuesta',
+        'fecha_solicitud', //evaluar si es necesario
+        'fecha_respuesta',  //evaluar si es necesario
         'estado', //enum('pendiente', 'aprobado', 'rechazado')
         'observaciones',
+        // deberia haber un campo para relacion con cita ?
     ];
 
     protected $casts = [

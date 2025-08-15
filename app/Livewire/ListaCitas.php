@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\Cita;
+use App\Models\Expediente;
+use App\Models\FiseSolicitud;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -10,7 +12,7 @@ use Livewire\Attributes\On;
 class ListaCitas extends Component
 {
     use WithPagination;
-    public $sort,$order,$cant,$search,$direction, $open; 
+    public $sort,$order,$cant,$search,$direction, $open;
 
     public function mount(){
       $this->direction='desc';
@@ -34,7 +36,7 @@ class ListaCitas extends Component
         $this->resetPage();
     }
 
-    // Marca el método con el atributo #[On] para que escuche el evento 'refrescarListaCitas'
+    // Marca el método con el atributo #[On] para que escuche los eventos.
     #[On('refrescarListaCitas')]
     public function actualizarListaCitas()
     {
@@ -43,25 +45,56 @@ class ListaCitas extends Component
         // La lógica de paginación en el método render() se encargará de refrescar la lista.
     }
 
-    public function marcarAceptada($id)
+    #[On('marcarCitaComoRechazada')]
+    public function marcarCitaComoRechazada($id)
     {
-        $cita = Cita::findOrFail($id);
-        $cita->estado = 'aceptada';
-        $cita->save();
-
-        // Redirigir a la creación de expediente
-        //return redirect()->route('expedientes.create', ['cita' => $cita->id]);
+        $cita = Cita::with(['cliente', 'vehiculo'])->findOrFail($id);
+        if ($cita) {
+            $cita->estado = 'rechazada';
+            $cita->save();
+        }
+        $this->dispatch('citaRechazada');
     }
 
-    public function marcarRechazada($id)
+    #[On('marcarCitaComoAceptada')]
+    public function marcarCitaComoAceptada($id)
     {
-        $cita = Cita::findOrFail($id);
-        $cita->estado = 'rechazada';
-        $cita->save();
+        $cita = Cita::with(['cliente', 'vehiculo'])->findOrFail($id);
 
-        $this->dispatch('refrescarListaCitas');
+        if ($cita) {
+            // Cambiar estado de la cita
+            $cita->estado = 'aceptada';
+            $cita->save();
+
+            // Crear expediente solo si no existe
+            $expedienteExiste = Expediente::where('cita_id', $cita->id)->exists();
+            if (!$expedienteExiste) {
+                Expediente::create([
+                    'cliente_id'  => $cita->cliente_id,
+                    'vehiculo_id' => $cita->vehiculo_id,
+                    'cita_id'     => $cita->id,
+                    'estado'      => 1,
+                ]);
+            }
+
+            // Crear solicitud FISE solo si no existe
+            $fiseExiste = FiseSolicitud::where('cliente_id', $cita->cliente_id)
+                ->where('vehiculo_id', $cita->vehiculo_id)
+                ->exists();
+
+            if (!$fiseExiste) {
+                FiseSolicitud::create([
+                    'cliente_id'     => $cita->cliente_id,
+                    'vehiculo_id'    => $cita->vehiculo_id,
+                    'fecha_solicitud'=> now(),
+                    'estado'         => 'pendiente',
+                    'observaciones'  => null,
+                ]);
+            }
+        }
+
+        $this->dispatch('citaAceptada');
     }
-
 
     public function render()
     {

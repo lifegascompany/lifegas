@@ -70,6 +70,8 @@
             });
         </script>
 
+        @stack('js')
+
 
         <footer>
             <div class="text-xs text-slate-700  float-right">

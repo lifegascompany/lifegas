@@ -12,13 +12,21 @@ class Expediente extends Model
     protected $table = 'expedientes';
 
     protected $fillable = [
+        'cita_id',
         'cliente_id',
         'vehiculo_id',
-        'cita_id',
-        'estado',
+        'jefe_taller_id',
+        'tecnico_id ',
+        'estado', // en_evaluacion', 'evaluacion_rechazada', 'aprobado_conversion', 'en_conversion', 'conversion_completada', 'en_control_calidad', 'listo_para_entrega', 'entregado', 'cancelado'
     ];
 
     // Relaciones
+
+    public function cita()
+    {
+        return $this->belongsTo(Cita::class, 'cita_id');
+    }
+    
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
@@ -29,9 +37,34 @@ class Expediente extends Model
         return $this->belongsTo(Vehiculo::class, 'vehiculo_id');
     }
 
-    public function cita()
+    public function jefeTaller()
     {
-        return $this->belongsTo(Cita::class, 'cita_id');
+        return $this->belongsTo(User::class, 'jefe_taller_id');
+    }
+
+    public function tecnico()
+    {
+        return $this->belongsTo(User::class, 'tecnico_id');
+    }
+    
+    /**
+     *  hasMany asume que un expediente puede tener múltiples registros a lo largo del tiempo.
+     *  hasOne asume que es un evento único y final que se aplica a un expediente.
+     */
+
+    public function evaluaciones()
+    {
+        return $this->hasMany(Evaluacion::class, 'expediente_id');
+    }
+
+    public function conversiones()
+    {
+        return $this->hasMany(Conversion::class, 'expediente_id');
+    }
+
+    public function controlesCalidad()
+    {
+        return $this->hasOne(ControlCalidad::class, 'expediente_id');
     }
 
     public function documentos()

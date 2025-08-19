@@ -40,6 +40,14 @@ class Cita extends Model
         return $this->belongsTo(User::class, 'asesor_id');
     }
 
+    public function expediente()
+    {
+        return $this->hasOne(Expediente::class, 'cita_id');
+    }
+
+
+    // Accesores
+
     // Scope para filtros y orden
     public function scopeBuscar($query, $search)
     {

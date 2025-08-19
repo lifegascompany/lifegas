@@ -12,16 +12,16 @@ class Evaluacion extends Model
     protected $table = 'evaluaciones';
 
     protected $fillable = [
-        'recepcion_id',
+        'expediente_id',
         'tecnico_id',
         'fecha_evaluacion',
         'resultado',
         'observaciones',
     ];
 
-    public function recepcion()
+    public function expediente()
     {
-        return $this->belongsTo(Recepcion::class, 'recepcion_id');
+        return $this->belongsTo(Expediente::class, 'expediente_id');
     }
 
     public function tecnico()
@@ -29,8 +29,8 @@ class Evaluacion extends Model
         return $this->belongsTo(User::class, 'tecnico_id');
     }
 
-    public function conversiones()
+    /*public function conversiones()
     {
         return $this->hasMany(Conversion::class, 'evaluacion_id');
-    }
+    }*/
 }

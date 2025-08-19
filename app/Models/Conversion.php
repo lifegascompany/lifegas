@@ -12,7 +12,7 @@ class Conversion extends Model
     protected $table = 'conversiones';
 
     protected $fillable = [
-        'evaluacion_id',
+        'expediente_id',
         'tecnico_id',
         'fecha_inicio',
         'fecha_fin',
@@ -20,9 +20,9 @@ class Conversion extends Model
         'observaciones',
     ];
 
-    public function evaluacion()
+    public function expediente()
     {
-        return $this->belongsTo(Evaluacion::class, 'evaluacion_id');
+        return $this->belongsTo(Expediente::class, 'expediente_id');
     }
 
     public function tecnico()
@@ -34,4 +34,9 @@ class Conversion extends Model
     {
         return $this->hasMany(ControlCalidad::class, 'conversion_id');
     }
+
+    /*public function evaluacion()
+    {
+        return $this->belongsTo(Evaluacion::class, 'evaluacion_id');
+    }*/
 }

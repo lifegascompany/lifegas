@@ -31,45 +31,34 @@ ALTER TABLE vehiculos ADD COLUMN combustible VARCHAR(50) NULL AFTER placa;
 
 -- Creación de tablas proceso
 
-CREATE TABLE recepciones (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    vehiculo_id INT NOT NULL,
-    asesor_id BIGINT UNSIGNED NOT NULL,
-    fecha_recepcion DATE NOT NULL,
-    observaciones TEXT,
-    estado ENUM('pendiente', 'evaluado', 'rechazado', 'aceptado') DEFAULT 'pendiente',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_recepciones_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
-    CONSTRAINT fk_recepciones_asesor FOREIGN KEY (asesor_id) REFERENCES users(id) ON DELETE RESTRICT
-);
 
 
+-- Tabla para guardar los detalles de la evaluacion
 CREATE TABLE evaluaciones (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    recepcion_id BIGINT UNSIGNED NOT NULL,
+    expediente_id BIGINT UNSIGNED NOT NULL,
     tecnico_id BIGINT UNSIGNED NOT NULL,
     fecha_evaluacion DATE NOT NULL,
     resultado ENUM('apto', 'no apto') NOT NULL,
     observaciones TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_evaluaciones_recepcion FOREIGN KEY (recepcion_id) REFERENCES recepciones(id) ON DELETE CASCADE,
+    CONSTRAINT fk_evaluaciones_expediente FOREIGN KEY (expediente_id) REFERENCES expedientes(id) ON DELETE CASCADE,
     CONSTRAINT fk_evaluaciones_tecnico FOREIGN KEY (tecnico_id) REFERENCES users(id) ON DELETE RESTRICT
 );
 
-
+-- Tabla para el seguimiento de la conversion
 CREATE TABLE conversiones (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    evaluacion_id BIGINT UNSIGNED NOT NULL,
+    expediente_id BIGINT UNSIGNED NOT NULL,
     tecnico_id BIGINT UNSIGNED NOT NULL,
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE,
-    estado ENUM('en proceso', 'completado', 'certificado') DEFAULT 'en proceso',
+    estado ENUM('en_proceso', 'completado', 'certificado') DEFAULT 'en_proceso',
     observaciones TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_conversiones_evaluacion FOREIGN KEY (evaluacion_id) REFERENCES evaluaciones(id) ON DELETE CASCADE,
+    CONSTRAINT fk_conversiones_expediente FOREIGN KEY (expediente_id) REFERENCES expedientes(id) ON DELETE CASCADE,
     CONSTRAINT fk_conversiones_tecnico FOREIGN KEY (tecnico_id) REFERENCES users(id) ON DELETE RESTRICT
 );
 
@@ -86,6 +75,7 @@ CREATE TABLE control_calidad (
     CONSTRAINT fk_control_conversion FOREIGN KEY (conversion_id) REFERENCES conversiones(id) ON DELETE CASCADE,
     CONSTRAINT fk_control_jefe FOREIGN KEY (jefe_taller_id) REFERENCES users(id) ON DELETE RESTRICT
 );
+
 
 
 
@@ -174,7 +164,37 @@ CREATE TABLE fise_solicitudes (
 
 
 
-
+--  Tablas expedientes y control_calidad aun no han sido reemplazadas pero considerar nuevos campos.
+-- Tu tabla expedientes (ajustada para ser el centro del proceso)
+CREATE TABLE expedientes (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cita_id BIGINT UNSIGNED NOT NULL,
+    cliente_id INT NOT NULL,
+    vehiculo_id INT NOT NULL,
+    jefe_taller_id BIGINT UNSIGNED,
+    tecnico_id BIGINT UNSIGNED,
+    estado ENUM('en_evaluacion', 'evaluacion_rechazada', 'aprobado_conversion', 'en_conversion', 'conversion_completada', 'en_control_calidad', 'listo_para_entrega', 'entregado', 'cancelado') DEFAULT 'en_evaluacion',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_expediente_cita FOREIGN KEY (cita_id) REFERENCES citas(id) ON DELETE CASCADE,
+    CONSTRAINT fk_expediente_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+    CONSTRAINT fk_expediente_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE CASCADE,
+    CONSTRAINT fk_expediente_jefe_taller FOREIGN KEY (jefe_taller_id) REFERENCES users(id) ON DELETE RESTRICT,
+    CONSTRAINT fk_expediente_tecnico FOREIGN KEY (tecnico_id) REFERENCES users(id) ON DELETE RESTRICT
+);
+-- Tabla para el control de calidad
+CREATE TABLE control_calidad (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    expediente_id BIGINT UNSIGNED NOT NULL,
+    jefe_taller_id BIGINT UNSIGNED NOT NULL,
+    fecha_control DATE NOT NULL,
+    resultado ENUM('aprobado', 'rechazado') NOT NULL,
+    observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_control_expediente FOREIGN KEY (expediente_id) REFERENCES expedientes(id) ON DELETE CASCADE,
+    CONSTRAINT fk_control_jefe FOREIGN KEY (jefe_taller_id) REFERENCES users(id) ON DELETE RESTRICT
+);
 
 
 

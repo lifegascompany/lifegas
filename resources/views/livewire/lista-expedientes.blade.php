@@ -101,6 +101,9 @@
                     <p class="text-sm font-bold text-red-500">
                         {{ $expedienteSeleccionado->created_at->format('d/m/Y H:i') }}</p>
                 </div>
+
+                <span class="text-sm text-gray-500">Revisar todos los tipo de documentos y de que forma se cargaran , todo junto o sectorizado.</span>
+                {{-- 
                 <!-- Tipos de documento -->
                 <div class="mb-4">
                     <x-label value="Tipo de documento:" />
@@ -125,6 +128,7 @@
                     class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                     Procesando sus documentos, espere un momento...
                 </div>
+                --}}
 
                 <!-- Galería de documentos -->
                 <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">Galeria de documentos:</h1>

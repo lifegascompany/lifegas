@@ -11,8 +11,7 @@
             <!-- Mostrar entradas -->
             <div class="flex bg-gray-50 items-center p-2 rounded-md">
                 <span>Mostrar</span>
-                <select wire:model="cant"
-                    class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-20">
+                <select wire:model="cant" class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-20">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
@@ -24,13 +23,17 @@
             <!-- Estado -->
             <div class="flex bg-gray-50 items-center p-2 rounded-md">
                 <span>Estado:</span>
-                <select wire:model="es"
-                    class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-40">
+                <select wire:model.live="es" class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-40">
                     <option value="">SELECCIONE</option>
-                    <option value="1">Por revisar</option>
-                    <option value="2">Observado</option>
-                    <option value="3">Aprobado</option>
-                    <option value="4">Desaprobado</option>
+                    <option value="en_evaluacion">En Evaluación</option>
+                    <option value="evaluacion_rechazada">Evaluación Rechazada</option>
+                    <option value="aprobado_conversion">Aprobado para Conversión</option>
+                    <option value="en_conversion">En Conversión</option>
+                    <option value="conversion_completada">Conversión Completada</option>
+                    <option value="en_control_calidad">En Control de Calidad</option>
+                    <option value="listo_para_entrega">Listo para Entrega</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
                 </select>
             </div>
 
@@ -47,7 +50,8 @@
                     placeholder="Buscar...">
             </div>
         </div>
+        <!-- Tabla -->
         <div class="mt-7 overflow-x-auto rounded-lg shadow-md">
-            {{$slot}}
+            {{ $slot }}
         </div>
     </div>

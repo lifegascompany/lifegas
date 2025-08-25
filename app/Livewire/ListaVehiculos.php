@@ -32,7 +32,7 @@ class ListaVehiculos extends Component
 
     public function render()
     {
-        $vehiculos = Vehiculo::with(['cliente', 'recepciones'])
+        $vehiculos = Vehiculo::with(['cliente'])
             ->buscar($this->search)
             ->ordenar($this->sort, $this->direction)
             ->paginate($this->cant);

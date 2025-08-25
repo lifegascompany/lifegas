@@ -11,6 +11,9 @@
                             Cliente
                         </th>
                         <th scope="col" class="px-6 py-4 text-left">
+                            Taller
+                        </th>
+                        <th scope="col" class="px-6 py-4 text-left">
                             Placa
                         </th>
                         <th scope="col" class="px-6 py-4 text-left">
@@ -37,6 +40,11 @@
                             <td class="px-6 py-4 text-left">
                                 <p class="text-sm font-medium leading-none text-gray-600">
                                     {{ $veh->cliente->nombre . ' ' . $veh->cliente->apellido }}
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 text-left">
+                                <p class="text-sm leading-none text-gray-600">
+                                    Lifegas Company
                                 </p>
                             </td>
                             <td class="px-6 py-4 text-left">

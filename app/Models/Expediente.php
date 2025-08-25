@@ -15,8 +15,8 @@ class Expediente extends Model
         'cita_id',
         'cliente_id',
         'vehiculo_id',
-        'jefe_taller_id',
-        'tecnico_id ',
+        'jefe_taller_id', // solo hay un jefe evaluar campo 
+        'tecnico_id',
         'estado', // en_evaluacion', 'evaluacion_rechazada', 'aprobado_conversion', 'en_conversion', 'conversion_completada', 'en_control_calidad', 'listo_para_entrega', 'entregado', 'cancelado'
     ];
 
@@ -86,5 +86,13 @@ class Expediente extends Model
     public function scopeOrdenar($query, $sort, $direction)
     {
         return $query->orderBy($sort, $direction);
+    }
+
+    public function scopeEstado($query, $estado)
+    {
+        if ($estado) {
+            return $query->where('estado', $estado);
+        }
+        return $query;
     }
 }

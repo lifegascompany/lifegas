@@ -52,8 +52,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
      Route::get('/crear-cita', CrearCitas::class)->name('CrearCita');
 
     // Vehículos
-    Route::get('/lista-vehiculos', ListaVehiculos::class)->name('ListaVehiculos'); 
+    Route::get('/lista-vehiculos', ListaVehiculos::class)->name('ListaVehiculos');
 
+    // Clientes
+
+    
     // Expedientes
     Route::get('/lista-expedientes', ListaExpedientes::class)->name('ListaExpedientes');
 

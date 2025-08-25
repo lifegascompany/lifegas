@@ -15,7 +15,7 @@ class Evaluacion extends Model
         'expediente_id',
         'tecnico_id',
         'fecha_evaluacion',
-        'resultado',
+        'resultado', // 'apto', 'no apto'
         'observaciones',
     ];
 

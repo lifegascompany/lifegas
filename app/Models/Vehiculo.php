@@ -13,10 +13,10 @@ class Vehiculo extends Model
 
     protected $fillable = [
         'cliente_id',
+        'placa',
         'marca',
         'modelo',
-        'anio',
-        'placa',
+        'anio',        
         'combustible',
         'serie',
         'color',
@@ -28,10 +28,30 @@ class Vehiculo extends Model
         return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
-    public function recepciones()
+    /**
+     *  hasMany asume que un vehiculo puede tener múltiples registros a lo largo del tiempo.
+     *  hasOne asume que es un evento único y final que se aplica a un vehiculo.
+     */
+
+    public function expediente()
+    {
+        return $this->hasMany(Expediente::class, 'vehiculo_id');
+    }
+
+    public function fise()
+    {
+        return $this->hasMany(FiseSolicitud::class, 'vehiculo_id');
+    }
+
+    public function cita()
+    {
+        return $this->hasMany(Cita::class, 'vehiculo_id');
+    }
+
+    /*public function recepciones()
     {
         return $this->hasMany(Recepcion::class, 'vehiculo_id');
-    }
+    }*/
 
     // Scope para filtros y orden
     public function scopeBuscar($query, $search)

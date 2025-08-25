@@ -12,20 +12,25 @@ class ControlCalidad extends Model
     protected $table = 'control_calidad';
 
     protected $fillable = [
-        'conversion_id',
+        'expediente_id',
         'jefe_taller_id',
         'fecha_control',
         'resultado',
         'observaciones',
     ];
 
-    public function conversion()
+    public function expediente()
     {
-        return $this->belongsTo(Conversion::class, 'conversion_id');
+        return $this->belongsTo(Expediente::class, 'expediente_id');
     }
 
     public function jefeTaller()
     {
         return $this->belongsTo(User::class, 'jefe_taller_id');
     }
+
+    /*public function conversion()
+    {
+        return $this->belongsTo(Conversion::class, 'conversion_id');
+    }*/
 }

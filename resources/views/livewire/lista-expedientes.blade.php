@@ -10,44 +10,52 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vehículo</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Asesor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tecnico</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Creación
-                                </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones
-                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Creación</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($expedientes as $expe)
                                 <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->id }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->id ?? NULL }}</td>
                                     <td class="px-6 py-4 text-sm font-medium text-gray-900">
                                         {{ $expe->cliente->nombre . ' ' . $expe->cliente->apellido }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->vehiculo->placa }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->cita->asesor->name }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->vehiculo->placa ?? NULL }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->cita->asesor->name ?? NULL }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->tecnico->name ?? 'No Asignado' }}</td>
                                     <td class="px-6 py-4 text-sm">
                                         @php
                                             $colors = [
-                                                '1' => 'bg-green-100 text-green-800',
-                                                '2' => 'bg-yellow-100 text-yellow-800',
-                                                '3' => 'bg-blue-100 text-blue-800',
-                                                '4' => 'bg-red-100 text-red-800',
+                                                'en_evaluacion'         => 'bg-yellow-100 text-yellow-800',
+                                                'evaluacion_rechazada'  => 'bg-red-100 text-red-800',
+                                                'aprobado_conversion'   => 'bg-blue-100 text-blue-800',
+                                                'en_conversion'         => 'bg-indigo-100 text-indigo-800',
+                                                'conversion_completada' => 'bg-green-100 text-green-800',
+                                                'en_control_calidad'    => 'bg-purple-100 text-purple-800',
+                                                'listo_para_entrega'    => 'bg-teal-100 text-teal-800',
+                                                'entregado'             => 'bg-green-100 text-green-800',
+                                                'cancelado'             => 'bg-red-100 text-red-800',
+                                            ];
+                                            $labels = [
+                                                'en_evaluacion'         => 'En Evaluación',
+                                                'evaluacion_rechazada'  => 'Evaluación Rechazada',
+                                                'aprobado_conversion'   => 'Aprobado para Conversión',
+                                                'en_conversion'         => 'En Conversión',
+                                                'conversion_completada' => 'Conversión Completada',
+                                                'en_control_calidad'    => 'En Control de Calidad',
+                                                'listo_para_entrega'    => 'Listo para Entrega',
+                                                'entregado'             => 'Entregado',
+                                                'cancelado'             => 'Cancelado',
                                             ];
                                         @endphp
-                                        <span
-                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $colors[$expe->estado] ?? 'bg-gray-100 text-gray-800' }}">
-                                            {{ [
-                                                1 => 'Por revisar',
-                                                2 => 'Observado',
-                                                3 => 'Aprobado',
-                                                4 => 'Desaprobado',
-                                            ][$expe->estado] ?? 'Desconocido' }}
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $colors[$expe->estado] ?? 'bg-gray-100 text-gray-800' }}">
+                                            {{ $labels[$expe->estado] ?? 'Desconocido' }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-500">
-                                        {{ $expe->created_at->format('d/m/Y H:i') }}
-                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $expe->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="text-center">
                                         <div class="flex justify-center items-center space-x-2">
                                             <!-- Botones de acción aquí -->
@@ -77,6 +85,7 @@
         </x-table-expedientes>
     </div>
 
+    <!-- Modal para ver y subir documentos y asignar tecnico -->
     <x-dialog-modal wire:model="open" wire:loading.attr="disabled" wire:target="">
         <x-slot name="title">
             Revision de Expediente
@@ -102,8 +111,20 @@
                         {{ $expedienteSeleccionado->created_at->format('d/m/Y H:i') }}</p>
                 </div>
 
+                <!-- Asignación de técnico -->
+                <div class="mb-4">
+                    <x-label value="Asignar Tecnico:" />
+                    <select wire:model="tecnico_id"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione...</option>
+                        @foreach ($tecnicos as $tec)
+                            <option value="{{ $tec->id }}">{{ $tec->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error for="tecnico_id" />
+                </div>
+
                 <span class="text-sm text-gray-500">Revisar todos los tipo de documentos y de que forma se cargaran , todo junto o sectorizado.</span>
-                {{-- 
                 <!-- Tipos de documento -->
                 <div class="mb-4">
                     <x-label value="Tipo de documento:" />
@@ -128,7 +149,7 @@
                     class="my-4 w-full px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
                     Procesando sus documentos, espere un momento...
                 </div>
-                --}}
+                
 
                 <!-- Galería de documentos -->
                 <h1 class="pt-2  font-semibold sm:text-lg text-gray-900">Galeria de documentos:</h1>

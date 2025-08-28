@@ -2,7 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Conversion;
 use App\Models\DocumentosExpediente;
+use App\Models\Evaluacion;
 use App\Models\Expediente;
 use App\Models\TiposDocumento;
 use App\Models\User;
@@ -26,12 +28,24 @@ class ListaExpedientes extends Component
     public $documentoNuevo = [];
     // Tipo seleccionado para los archivos nuevos 
     public $tipo_documento_id = '';
-    // Catálogo de tipos
-    public $tiposDocumentos, $tecnicos;
+
     // Técnico asignado
     public $tecnico_id = '';
     // Carga el usuario autenticado
     public $user;
+
+    // Catálogo de tipos
+    public $tiposDocumentos, $tecnicos;
+
+    // Variables para modal evaluacion
+    public $openevaluar = false;
+    public $instalacion, $cambio_tanque, $revision, $certificacion, $servicio;
+    public $cliente, $dni;
+    public $telefono_fijo, $placa_actual, $marca, $modelo, $anio;
+    public $telefono_movil, $placa_anterior, $motor, $color, $combustible;
+    public $inyectado, $carburado, $monopunto, $motor_tipo, $cil3, $kilometraje;
+    // Nuevas propiedades para crear la evaluación
+    public $resultado, $observaciones;
 
     protected $rules = [
         'tipo_documento_id'     => 'required|exists:tipos_documento,id',
@@ -73,20 +87,6 @@ class ListaExpedientes extends Component
         $this->tecnico_id = $this->expedienteSeleccionado->tecnico_id;
         $this->open = true;
     }
-
-    public function asignarTecnico()
-    {
-        if (!$this->expedienteSeleccionado) {
-            return;
-        }
-
-        $this->expedienteSeleccionado->update([
-            'tecnico_id' => $this->tecnico_id,
-        ]);
-
-        $this->dispatch('minAlert', titulo: "¡BUEN TRABAJO!", mensaje: "Técnico asignado correctamente", icono: "success");
-    }
-
     public function subirDocumento()
     {
         if (!$this->expedienteSeleccionado) {
@@ -156,7 +156,6 @@ class ListaExpedientes extends Component
         $this->expedienteSeleccionado->load('documentos.tipoDocumento');
         $this->files = $this->expedienteSeleccionado->documentos;
     }
-
     // Eliminar archivo de carga nueva
     public function deleteFileUpload($key)
     {
@@ -164,6 +163,89 @@ class ListaExpedientes extends Component
             unset($this->documentoNuevo[$key]);
             $this->documentoNuevo = array_values($this->documentoNuevo); // reindexar
         }
+    }
+
+    public function verEvaluacion($id)
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->reset(['resultado', 'observaciones']);
+
+        $this->expedienteSeleccionado = Expediente::with(['cliente', 'vehiculo', 'cita.asesor', 'evaluaciones'])->findOrFail($id);
+
+        if ($this->expedienteSeleccionado) {
+            // Cargar datos de cliente y vehiculo
+            $this->cliente = $this->expedienteSeleccionado->cliente->nombre . ' ' . $this->expedienteSeleccionado->cliente->apellido;
+            $this->dni = $this->expedienteSeleccionado->cliente->documento;
+            $this->telefono_fijo = $this->expedienteSeleccionado->cliente->telefono;
+            $this->telefono_movil = $this->expedienteSeleccionado->cliente->telefono;
+            $this->placa_actual = $this->expedienteSeleccionado->vehiculo->placa;
+            $this->placa_anterior = $this->expedienteSeleccionado->vehiculo->placa_anterior;
+            $this->marca = $this->expedienteSeleccionado->vehiculo->marca;
+            $this->modelo = $this->expedienteSeleccionado->vehiculo->modelo;
+            $this->motor = $this->expedienteSeleccionado->vehiculo->serie;
+            $this->color = $this->expedienteSeleccionado->vehiculo->color;
+            $this->anio = $this->expedienteSeleccionado->vehiculo->anio;
+            $this->combustible = $this->expedienteSeleccionado->vehiculo->combustible;
+            // Cargar datos de evaluacion, verificando si existe
+            if ($this->expedienteSeleccionado->evaluaciones->isNotEmpty()) {
+                $evaluacion = $this->expedienteSeleccionado->evaluaciones->first(); // O usar ->last() si hay varias
+                $this->resultado = $evaluacion->resultado;
+                $this->observaciones = $evaluacion->observaciones;
+            }
+        }        
+
+        $this->openevaluar = true;
+    }
+    public function guardarEvaluacion()
+    {
+        $this->validate([
+            'resultado' => 'required|in:apto,no apto',
+            'observaciones' => 'nullable|string|max:1000',
+        ]);
+        
+        // Verifica si ya existe una evaluación para este expediente
+        $evaluacion = Evaluacion::where('expediente_id', $this->expedienteSeleccionado->id)->first();
+        
+        if ($evaluacion) {
+            // Actualiza la evaluación existente
+            $evaluacion->update([
+                'resultado' => $this->resultado,
+                'observaciones' => $this->observaciones,
+            ]);
+            $mensaje = "Evaluación actualizada correctamente";
+        } else {
+            // Crea un nuevo registro de evaluación
+            Evaluacion::create([
+                'expediente_id' => $this->expedienteSeleccionado->id,
+                'tecnico_id' => $this->user->id,
+                'fecha_evaluacion' => now(),
+                'resultado' => $this->resultado,
+                'observaciones' => $this->observaciones,
+            ]);
+            $mensaje = "Evaluación registrada correctamente";
+        }
+
+        // Se actualiza el estado del expediente basándose en el resultado
+        if ($this->resultado === 'apto') {
+            $this->expedienteSeleccionado->update(['estado' => 'aprobado_conversion']);
+            // Crea un registro de Conversion
+            Conversion::create([
+                'expediente_id' => $this->expedienteSeleccionado->id,
+                'tecnico_id' => $this->user->id,
+                'fecha_inicio' => now(), // donde agregamos la fecha de incio, en el modal ? o despues se actualiza ?
+                'estado' => 'en_proceso',
+                'observaciones' => $this->observaciones,
+            ]);
+        } else {
+            $this->expedienteSeleccionado->update(['estado' => 'evaluacion_rechazada']);
+        }
+
+        // Se reinician las propiedades del modal
+        $this->reset(['openevaluar', 'resultado', 'observaciones']);
+
+        // Se cierra el modal y se muestra una notificación de éxito
+        $this->dispatch('minAlert', titulo: "¡BUEN TRABAJO!", mensaje: $mensaje, icono: "success");
     }
 
     // Muestra los expedientes con filtros y orden

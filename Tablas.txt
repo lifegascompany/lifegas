@@ -199,6 +199,39 @@ CREATE TABLE control_calidad (
 
 
 
+-- 1. Crear la tabla `repuestos`
+-- Esta tabla almacena un catálogo de todos los repuestos disponibles.
 
+CREATE TABLE repuestos (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT NULL,
+    precio DECIMAL(8, 2) NOT NULL,
+    stock INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- 2. Crear la tabla `conversion_detalles`
+-- Esta es la tabla pivote que relaciona conversiones con repuestos.
+
+CREATE TABLE conversion_detalles (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    conversion_id BIGINT UNSIGNED NOT NULL,
+    repuesto_id BIGINT UNSIGNED NOT NULL,
+    cantidad_utilizada INT UNSIGNED NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_conversion_detalles_conversion_id
+        FOREIGN KEY (conversion_id)
+        REFERENCES conversiones (id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_conversion_detalles_repuesto_id
+        FOREIGN KEY (repuesto_id)
+        REFERENCES repuestos (id)
+        ON DELETE RESTRICT
+);
 
 

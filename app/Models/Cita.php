@@ -64,4 +64,11 @@ class Cita extends Model
     {
         return $query->orderBy($sort, $direction);
     }
+
+    public function scopeEstado($query, $estado)
+    {
+        if ($estado && $estado !== 'todos') {
+            $query->where('estado', $estado);
+        }
+    }
 }

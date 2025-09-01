@@ -15,7 +15,7 @@ class ControlCalidad extends Model
         'expediente_id',
         'jefe_taller_id',
         'fecha_control',
-        'resultado',
+        'resultado', // 'aprobado', 'rechazado'
         'observaciones',
     ];
 

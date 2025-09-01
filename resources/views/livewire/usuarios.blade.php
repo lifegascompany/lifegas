@@ -17,7 +17,7 @@
                     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                             <div class="overflow-x-auto">
-                                <table class="w-full whitespace-nowrap">
+                                <table class="w-full whitespace-nowrap rounded-lg overflow-hidden shadow">
                                     <thead class="bg-slate-600 border-b font-bold text-white">
                                         <tr>
                                             <th scope="col"

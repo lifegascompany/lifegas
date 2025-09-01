@@ -28,7 +28,8 @@ class SolicitudRepuestos extends Component
     {
         $this->conversionId = $conversionId;
         // Carga la conversión y sus detalles existentes si los hay
-        $this->conversion = Conversion::with('conversionDetalles.repuesto')->find($conversionId);
+        //$this->conversion = Conversion::with('conversionDetalles.repuesto')->find($conversionId);
+        $this->conversion = Conversion::with('conversionDetalles.repuesto', 'expediente')->find($conversionId);
 
         // Si ya hay repuestos en la conversión, los cargamos en el formulario
         if ($this->conversion && $this->conversion->conversionDetalles->count() > 0) {
@@ -143,12 +144,19 @@ class SolicitudRepuestos extends Component
                 // Eliminar el registro de la base de datos
                 $detalleRemovido->delete();
             }
+
+            // Validar que el expediente exista en la conversión
+            if ($this->conversion && $this->conversion->expediente) {
+                // 2. Actualizar el estado del expediente a 'en_conversion'
+                $this->conversion->expediente->update([
+                    'estado' => 'en_conversion'
+                ]);
+            }
         });
 
         // Habilitar la visibilidad de los botones después de guardar
         $this->showButtons = true;
         // Emitir el evento de alerta después de guardar.
-        //$this->dispatch('solicitudGuardada', titulo: "¡BUEN TRABAJO!", mensaje: "Repuestos agregados correctamente", icono: "success");
         $this->dispatch('minAlert', titulo: "¡BUEN TRABAJO!", mensaje: "Repuestos agregados correctamente", icono: "success");
     }
 

@@ -30,10 +30,10 @@
         </div>
         {{-- Botón para agregar --}}
         <div class="md:shrink-0">
-            <x-button wire:click="addRepuesto"
-                class="bg-amber-500 px-6 py-4 rounded-md text-white font-semibold tracking-wide hover:bg-amber-500">
+            <button wire:click="addRepuesto"
+                class="bg-amber-400 px-5 py-3 rounded-md text-white font-semibold tracking-wide hover:bg-amber-600">
                 <i class="fas fa-plus"></i>
-            </x-button>
+            </button>
         </div>
     </div>
 
@@ -99,16 +99,16 @@
     <div class="mt-6 flex items-center justify-center gap-2">
         <button class="p-3 bg-teal-600 rounded-xl text-white text-sm hover:font-bold hover:bg-teal-700"
             wire:click="saveSolicitud" wire:loading.attr="disabled" wire:target="saveSolicitud">
-            Guardar
+            <i class="fa-solid fa-floppy-disk"></i> Guardar
         </button>
-        @if ($showButtons)
+        @if ($showButtons) 
             <button class="p-3 bg-red-600 rounded-xl text-white text-sm hover:font-bold hover:bg-red-700"
                 wire:click="redirectToRegresar">
-                Regresar
+                <i class="fa-solid fa-rotate-left"></i> Regresar
             </button>
             <button class="p-3 bg-yellow-500 rounded-xl text-white text-sm hover:font-bold hover:bg-yellow-600"
                 wire:click="openPdf">
-                Orden Rpts
+                <i class="fa-solid fa-clipboard-list"></i> Orden Repuests
             </button>
         @endif
     </div>

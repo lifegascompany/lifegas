@@ -60,14 +60,27 @@
                                     <td class="text-center">
                                         <div class="flex justify-center items-center space-x-2">
                                             <!-- Botones de acción aquí -->
-                                            <a wire:click="verExpediente({{ $expe->id }})"
-                                                class="py-1 px-2 text-center rounded-md bg-amber-300 font-bold text-black cursor-pointer hover:bg-amber-400">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <a wire:click="verEvaluacion({{ $expe->id }})"
-                                                class="py-1 px-2 text-center rounded-md bg-green-200 font-bold text-black cursor-pointer hover:bg-green-300">
-                                                <i class="fa-solid fa-car-side"></i>
-                                            </a>                                            
+                                            <div class="relative group">                                            
+                                                <a wire:click="verExpediente({{ $expe->id }})"
+                                                    class="py-1 px-2 text-center rounded-md bg-amber-300 font-bold text-black cursor-pointer hover:bg-amber-400">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                                <span class="absolute bottom-full  mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
+                                                    Editar
+                                                </span>
+                                            </div>
+                                            @hasanyrole('Administrador del sistema|Tecnico')
+                                                <div class="relative group">
+                                                    <a wire:click="verEvaluacion({{ $expe->id }})"
+                                                        class="py-1 px-2 text-center rounded-md bg-green-200 font-bold text-black cursor-pointer hover:bg-green-300">
+                                                        <i class="fa-solid fa-car-side"></i>
+                                                    </a>
+                                                    <span class="absolute bottom-full  mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
+                                                        Evaluar
+                                                    </span>  
+                                                </div>
+                                            @endhasanyrole
+                                                                                
                                         </div>
                                     </td>
                                 </tr>

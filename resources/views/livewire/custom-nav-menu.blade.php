@@ -31,9 +31,8 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
     </style>
 
     <!-- Navbar start -->
-    <nav id="navbar"
-        class="sticky top-0 z-40 flex w-full flex-row justify-between bg-gray-400 px-4 shadow-lg border-b">
-        <button id="btnSidebarToggler" type="button" class="py-4 text-2xl text-white hover:text-black">
+    <nav id="navbar" class="sticky top-0 z-40 flex w-full flex-row justify-between bg-gradient-to-r from-gray-400 to-slate-600 px-4 shadow-lg border-b border-gray-300">
+        <button id="btnSidebarToggler" type="button" class="py-4 text-2xl text-white hover:text-gray-200">
             <svg id="navClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="h-8 w-8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -201,6 +200,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                         @endcan
 
                         {{--             OPCIONES PARA CONVERSIONES                    --}}
+                        @can('opciones.conversiones')
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                                 x-data="{ Open: false }">
                                 <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -230,7 +230,8 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         </li>
                                     </ul>
                                 </div>
-                            </li>                        
+                            </li>
+                        @endcan                  
 
                         {{--             OPCIONES PARA CLIENTES                    
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
@@ -265,6 +266,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                             </li>--}}
 
                         {{--             OPCIONES PARA ALMACEN                    --}}
+                        @can('opciones.almacen')
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                                 x-data="{ Open: false }">
                                 <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -295,8 +297,10 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                     </ul>
                                 </div>
                             </li>
+                        @endcan
 
                         {{--             OPCIONES PARA REPORTES                    --}}
+                        @can('opciones.reportes')
                             <li class="text-gray-50 py-3 pl-3 pr-4 hover:bg-gray-600 focus:bg-gray-600 rounded"
                                 x-data="{ Open: false }">
                                 <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
@@ -319,10 +323,15 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                         aria-label="submenu">
 
                                         <li class="transition-colors duration-150">
+                                            <x-responsive-nav-link class="text-sm" href="{{ route('Rpta.Citas') }}"
+                                                :active="request()->routeIs('Rpta.Citas')">
+                                                Reporte de Citas
+                                            </x-responsive-nav-link>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
+                        @endcan
 
                         {{--             OPCIONES PARA MANTENIMIENTO TABLAS                    --}}
                         @can('opciones.vehiculos')
@@ -331,7 +340,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
                                 <div class="inline-flex  items-center justify-between w-full transition-colors duration-150 text-gray-500  cursor-pointer"
                                     x-on:click="Open = !Open">
                                     <span class="inline-flex items-center space-x-6  text-sm text-white ">
-                                        <i class="fa-solid fa-car"></i>
+                                        <i class="fa-solid fa-database"></i>
                                         <span class="select-none">Mantenimiento Tablas</span>
                                     </span>
                                     <i class="fa-solid fa-caret-down ml-1  text-white w-4 h-4" x-show="!Open"></i>

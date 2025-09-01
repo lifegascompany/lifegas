@@ -12,6 +12,7 @@ use App\Livewire\ListaClientes;
 use App\Livewire\ListaConversiones;
 use App\Livewire\ListaExpedientes;
 use App\Livewire\ListaVehiculos;
+use App\Livewire\Reportes\ReporteCitas;
 use App\Livewire\SolicitudRepuestos;
 use App\Livewire\Usuarios;
 use Illuminate\Support\Facades\RateLimiter;
@@ -68,6 +69,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/solicitud-repuestos/{conversionId}', SolicitudRepuestos::class)->name('SolicitudRepuestos');
 
     // Reportes
+    Route::get('/rpta-citas', ReporteCitas::class)->name('Rpta.Citas');
 
     // Vehículos
     Route::get('/lista-vehiculos', ListaVehiculos::class)->name('ListaVehiculos');

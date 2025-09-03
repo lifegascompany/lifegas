@@ -1,0 +1,130 @@
+/*
+ * Paleta de colores de la marca:
+ * Azul: #3498DB (y variaciones)
+ * Verde: #2ECC71 (y variaciones)
+ */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+}
+
+#hero {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.hero-background-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.hero-bg-image.active {
+    opacity: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.header-bg {
+    transition: background-color 0.3s ease-in-out;
+}
+
+.header-bg.scrolled {
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.header-bg.scrolled .text-white {
+    color: #000000;
+}
+
+#car-animation-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#car-image {
+    width: 60%;
+    max-width: 700px;
+    height: auto;
+    animation: diamond-float 8s ease-in-out infinite;
+}
+
+@keyframes diamond-float {
+    0% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(-10px, -15px) rotate(-1deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(0deg);
+    }
+
+    75% {
+        transform: translate(10px, -15px) rotate(1deg);
+    }
+
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
+/* Estilos para la sección de parallax */
+/* Agregamos la imagen de fondo y el efecto de paralaje */
+.parallax-section {
+    background-image: url('../images/services.jpg');
+    /* Remplaza con la ruta a tu imagen, por ejemplo: url('images/fondo3.png'); */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /* Este es el truco para el efecto parallax */
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .hero-text-content {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    #car-animation-container {
+        order: -1;
+    }
+}

@@ -24,4 +24,17 @@ class Cliente extends Model
     {
         return $this->hasMany(Vehiculo::class, 'cliente_id');
     }
+
+    // Scope para filtros y orden
+    public function scopeBuscar($query, $search)
+    {
+        if ($search) {
+            $query->where('nombre', 'like', "%{$search}%");
+        }
+    }
+
+    public function scopeOrdenar($query, $sort, $direction)
+    {
+        return $query->orderBy($sort, $direction);
+    }
 }

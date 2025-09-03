@@ -1,7 +1,7 @@
-<div class="bg-gray-200 p-6 rounded-2xl shadow-sm w-full">
+<div class="bg-gray-200 p-8 rounded-2xl shadow-sm w-full">
     <div class="space-y-4">
          <!-- TITULO DE LA TABLA -->
-        <div class="p-2 text-xl font-semibold text-gray-700 border-b border-gray-200">
+        <div class="text-xl font-semibold text-gray-700 border-b border-gray-200">
             {{ $titulo }}
         </div>
         <div class="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4">            
@@ -35,7 +35,7 @@
     </div>
     
     <!-- CONTENIDO TABLA -->
-    <div class="mt-4">
+    <div class="mt-4 overflow-x-auto rounded-lg shadow-md">
         {{ $contenido }}
     </div>
     

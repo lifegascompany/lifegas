@@ -72,7 +72,7 @@ body {
 }
 
 #car-image {
-    width: 60%;
+    width: 65%;
     max-width: 700px;
     height: auto;
     animation: diamond-float 8s ease-in-out infinite;
@@ -103,12 +103,37 @@ body {
 /* Estilos para la sección de parallax */
 /* Agregamos la imagen de fondo y el efecto de paralaje */
 .parallax-section {
-    background-image: url('../images/services.jpg');
-    /* Remplaza con la ruta a tu imagen, por ejemplo: url('images/fondo3.png'); */
+    background-image: url('../images/flyer6.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    /* Este es el truco para el efecto parallax */
+    /* Efecto parallax para PC */
+    min-height: 300px;
+    /* Altura mínima responsive */
+    position: relative;
+}
+
+
+
+/* Animación para los contadores al aparecer */
+.counter-container.animated {
+    animation: bounceIn 1s ease-out;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 
@@ -120,11 +145,16 @@ body {
     }
 
     .hero-text-content {
+        order: -1;
         text-align: center;
         margin-bottom: 2rem;
     }
 
     #car-animation-container {
-        order: -1;
+        order: 1;
+    }
+
+    .parallax-section {
+        min-height: 500px;
     }
 }

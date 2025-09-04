@@ -50,7 +50,7 @@
                 <a href="#hero" class="hover:text-blue-700 transition duration-300">Inicio</a>
                 <a href="#about" class="hover:text-blue-700 transition duration-300">Nosotros</a>
                 <a href="#contact" class="hover:text-blue-700 transition duration-300">Contacto</a>
-                <a href="#"
+                <a href="/login"
                     class="px-6 py-2 text-center bg-green-400 text-blue-700 rounded-full font-semibold hover:bg-blue-600 transition duration-300">
                     Iniciar Sesión
                 </a>
@@ -69,13 +69,12 @@
             </div>
 
             <!-- Contenido principal y animación del tecnico -->
-            <div
-                class="hero-content container mx-auto px-6 md:flex md:flex-row-reverse md:justify-between md:items-center">
+            <div class="hero-content container mx-auto px-6 md:flex md:flex-row-reverse md:justify-between md:items-center">
                 <div id="car-animation-container">
-                    <img id="car-image" src="images/tecnico.png" alt="Vehículo convertido a gas">
+                    <img id="car-image" src="images/tecnico4.png" alt="Vehículo convertido a gas">
                 </div>
 
-                <div class="hero-text-content z-10 p-6 rounded-3xl md:w-1/2 md:text-left">
+                <div class="pt-12 hero-text-content z-10 p-6 rounded-3xl md:w-1/2 md:text-left">
                     <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-4">
                         Taller de Conversión a Gas Vehicular en Lima
                     </h1>
@@ -89,13 +88,11 @@
                             class="px-8 py-3 bg-green-400 text-blue-700 font-bold rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:bg-green-500">
                             Empezar
                         </a>
-                        <!--
                         <a href="#"
-                            class="px-8 py-3 border-2 border-white text-white font-semibold rounded-full hover:bg-white hover:text-blue-500 transition duration-300 transform hover:scale-105 flex items-center">
+                            class="px-8 py-3 border-2 border-green-400 text-white font-semibold rounded-full hover:bg-green-400 hover:text-blue-600 transition duration-300 transform hover:scale-105 flex items-center">
                             <i class="fas fa-play-circle mr-2 text-lg"></i>
-                            Ver Video
-                        </a>
-                        -->
+                            Video
+                        </a>                        
                     </div>
                 </div>
             </div>
@@ -174,7 +171,7 @@
         </section>
 
         <!-- Sección de Parallax con Contador -->
-        <section id="parallax-counter" class="parallax-section h-[400px] flex items-center justify-center relative">
+        <section id="parallax-counter" class="parallax-section h-[300px] flex items-center justify-center relative">
             <div class="absolute inset-0 bg-gray-900 opacity-60"></div>
             <div class="container mx-auto px-6 z-10 text-center text-white">
                 <div id="counter-row" class="flex flex-col md:flex-row justify-center md:space-x-16 space-y-8 md:space-y-0">
@@ -297,22 +294,25 @@
                 </div>
             </div>
         </section>
-
-
     </main>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-gray-400 py-6">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; <span id="current-year"></span> Lifegas Company. Todos los derechos reservados.</p>
+            <p>&copy; <span id="current-year"></span> Lifegas Company - Todos los derechos reservados.</p>
             <div class="mt-6 flex justify-center space-x-8">
                 <a href="#" class="hover:text-blue-500 transition duration-300"><i class="fab fa-facebook-f text-2xl"></i></a>
-                <a href="#" class="hover:text-blue-500 transition duration-300"><i class="fab fa-twitter text-2xl"></i></a>
-                <a href="#" class="hover:text-blue-500 transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
+                <a href="#" class="hover:text-black transition duration-300"><i class="fab fa-tiktok text-2xl"></i></a>
+                <a href="#" class="hover:text-red-500 transition duration-300"><i class="fab fa-instagram text-2xl"></i></a>
             </div>
         </div>
     </footer>
 
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/51999000111" target="_blank"
+        class="fixed bottom-6 right-6 z-50 bg-green-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
 
     <!-- Enlace al archivo de scripts -->
     <script src="js/script.js"></script>

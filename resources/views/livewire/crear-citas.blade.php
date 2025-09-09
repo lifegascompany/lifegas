@@ -1,3 +1,4 @@
+<!-- resources>views>livewire>crear-citas.blade.php -->
 <div class="mb-4">
     <button wire:click="$set('open',true)"
         class="bg-slate-600 px-6 py-4 rounded-md text-white font-semibold tracking-wide cursor-pointer">Agregar</button>
@@ -97,18 +98,40 @@
             <!-- Cita -->
             <div class="bg-gray-50 p-4 rounded-lg shadow mt-4">
                 <h3 class="text-lg font-semibold text-yellow-800 border-b pb-1 mb-3">📅 Datos de la Cita</h3>
+                <!-- Fecha y motivo -->
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <x-input label="Fecha de Cita" type="date" class="w-full" wire:model="fecha_cita" />
+                        <x-input label="Fecha de Cita" type="datetime-local" class="w-full" wire:model="fecha_cita" />
                         <x-input-error for="fecha_cita" class="mt-1" />
                     </div>
-
                     <div>
                         <x-input label="Motivo" placeholder="Motivo de la cita" class="w-full" type="text"
                             wire:model="motivo" />
                         <x-input-error for="motivo" class="mt-1" />
                     </div>
                 </div>
+                <!-- Toggle: Asesor externo -->
+                <div class="mt-4 mb-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" wire:model.live="is_externo" 
+                        class="w-4 h-4 text-slate-600 bg-slate-100 border-gray-300 rounded outline-none  focus:ring-slate-600">
+                        <span class="ml-3 text-gray-700">La cita la registra un <strong>vendedor/asesor externo ?</strong></span>
+                    </label>
+                </div>
+                <!-- Si ES externo: mostramos select con asesores externos -->
+                @if ($is_externo)
+                    <div>
+                        <select wire:model="asesor_externo_id" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="">Seleccione asesor externo...</option>
+                            @foreach($asesores as $asesor)
+                                <option value="{{ $asesor->id }}">
+                                    {{ $asesor->nombre }}{{ $asesor->telefono ? ' • ' . $asesor->telefono : '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-input-error for="asesor_externo_id" class="mt-1" />
+                    </div>
+                @endif
             </div>
         </x-slot>
 

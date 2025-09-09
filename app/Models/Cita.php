@@ -15,13 +15,14 @@ class Cita extends Model
         'cliente_id',
         'vehiculo_id',
         'asesor_id',
+        'asesor_externo_id', // agregado
         'fecha_cita',
         'motivo',
         'estado', //enum('pendiente', 'aceptada', 'rechazada', 'cancelada')
     ];
 
     protected $casts = [
-        'fecha_cita' => 'date', //datetime
+        'fecha_cita' => 'datetime',
     ];
 
     // Relaciones
@@ -40,10 +41,26 @@ class Cita extends Model
         return $this->belongsTo(User::class, 'asesor_id');
     }
 
+    public function asesorExterno()
+    {
+        return $this->belongsTo(AsesorExterno::class, 'asesor_externo_id');
+    }
+
     public function expediente()
     {
         return $this->hasOne(Expediente::class, 'cita_id');
     }
+
+
+    public function getNombreAsesorAttribute()
+    {
+        if ($this->asesor_externo_id) {
+            return $this->asesorExterno?->nombre;
+        }
+
+        return $this->asesor?->name; // Asumiendo que en User el campo es "name"
+    }
+
 
 
     // Accesores

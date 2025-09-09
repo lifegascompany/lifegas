@@ -1,3 +1,4 @@
+<!-- resources>views>components>table-citas.blade.php -->
 <div class="bg-gray-200  p-8 rounded-xl w-full">
     <div class=" items-center md:block sm:block">
         {{-- 
@@ -32,7 +33,8 @@
             </div>
             
             <!-- boton agregar -->
-            @livewire('crear-citas')         
+            {{--@livewire('crear-citas')--}}
+            <livewire:crear-citas wire:key="crear-citas-component" /> 
 
         </div>
     </div>

@@ -235,3 +235,64 @@ CREATE TABLE conversion_detalles (
 );
 
 
+
+
+
+
+
+-- Tabla para vendedores externos
+CREATE TABLE asesores_externos (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    telefono VARCHAR(20) NULL,
+    email VARCHAR(150) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Para poder eliminar foreign key para eliminar tabla citas
+ALTER TABLE expedientes DROP FOREIGN KEY fk_expediente_cita;
+
+-- Eliminar tabla citas
+DROP TABLE citas;
+
+-- Crear tabla citas con nuevo campo y FOREIGN KEY
+CREATE TABLE citas (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    vehiculo_id INT NULL,
+    asesor_id BIGINT UNSIGNED NULL, -- interno (users)
+    asesor_externo_id BIGINT UNSIGNED NULL, -- externo (asesores_externos)
+    fecha_cita DATETIME NOT NULL,
+    motivo TEXT,
+    estado ENUM('pendiente', 'aceptada', 'rechazada', 'cancelada') DEFAULT 'pendiente',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- Relaciones
+    CONSTRAINT fk_citas_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE,
+    CONSTRAINT fk_citas_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES vehiculos(id) ON DELETE SET NULL,
+    CONSTRAINT fk_citas_asesor FOREIGN KEY (asesor_id) REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_citas_asesor_externo FOREIGN KEY (asesor_externo_id) REFERENCES asesores_externos(id) ON DELETE SET NULL
+);
+
+
+
+
+ALTER TABLE expedientes
+ADD CONSTRAINT fk_expediente_cita FOREIGN KEY (cita_id) REFERENCES citas(id) ON DELETE CASCADE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

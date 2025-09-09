@@ -79,3 +79,24 @@ const observer = new IntersectionObserver((entries, observer) => {
 if (counterSection) {
     observer.observe(counterSection);
 }
+
+
+// Seccion album flyers (carrusel desliza cinta)
+const swiper = new Swiper('.flyers-carousel', {
+    slidesPerView: 1,        // Móvil: 1 flyer por vista
+    spaceBetween: 20,
+    loop: true,              // Loop infinito
+    autoplay: {
+      delay: 2500,           // Avanza cada 2.5s
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      640: { slidesPerView: 2 },   // Tablet
+      1024: { slidesPerView: 3 },  // Laptop
+      1280: { slidesPerView: 3 },  // Pantallas grandes
+    },
+  });

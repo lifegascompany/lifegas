@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\AsesorExterno;
 use Livewire\Component;
 use App\Models\Cliente;
 use App\Models\Vehiculo;
@@ -22,7 +23,10 @@ class CrearCitas extends Component
     // Datos de la cita
     public $fecha_cita, $motivo;
 
-    protected $listeners = ['abrirModalCita' => 'abrir'];
+    // Control asesor interno/externo
+    public $is_externo = false;           // checkbox: false = asesor interno (por defecto)
+    public $asesor_externo_id = null;     // id seleccionado si is_externo = true
+    public $asesores; // todos los asesores
 
     protected $rules = [
         // Cliente
@@ -43,14 +47,16 @@ class CrearCitas extends Component
         'color'  => 'nullable|string|max:50',
 
         // Cita
-        'fecha_cita' => 'required|date|after_or_equal:today',
+        //'fecha_cita' => 'required|date|after_or_equal:today',
+        'fecha_cita' => 'required|date_format:Y-m-d\TH:i|after_or_equal:now',
         'motivo'     => 'nullable|string|max:255',
+
+        // Asesor externo: obligatorio solo si is_externo = 1 (checkbox true)
+        'asesor_externo_id' => 'required_if:is_externo,1|nullable|exists:asesores_externos,id',
     ];
 
-    public function abrir()
-    {
-        $this->resetExcept('open');
-        $this->open = true;
+    public function mount(){
+        $this->asesores = AsesorExterno::orderBy('nombre')->get();;
     }
 
     public function crearCita()
@@ -107,21 +113,27 @@ class CrearCitas extends Component
             ]);
         }
 
-        // 3️ Crear cita
+        // 3️ Determinar asesor interno o externo
+        $asesor_id = $this->is_externo ? null : Auth::id();
+        $asesor_externo_id = $this->is_externo ? $this->asesor_externo_id : null;
+
+        // 4 Crear cita
         $cita = Cita::create([
             'cliente_id'  => $cliente->id,
             'vehiculo_id' => $vehiculo->id,
-            'asesor_id'   => Auth::id(),
-            'fecha_cita'  => $this->fecha_cita,
+            'asesor_id'           => $asesor_id,
+            'asesor_externo_id'   => $asesor_externo_id,
+            //'fecha_cita'  => $this->fecha_cita,
+            'fecha_cita'        => Carbon::parse($this->fecha_cita),
             'motivo'      => $this->motivo,
             'estado'      => 'pendiente',
         ]);
 
-        // Limpiar formulario
-        $this->reset();
+        $this->open = false;
         $fechaFormateada = Carbon::parse($cita->fecha_cita)->translatedFormat('l, d F Y');
         $this->dispatch('minAlert', titulo: "¡BUEN TRABAJO!", mensaje: "Se ha programado una cita para el " . $fechaFormateada, icono: "success");
         $this->dispatch('refrescarListaCitas');
+        $this->reset();
     }
 
     public function render()

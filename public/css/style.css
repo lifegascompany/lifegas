@@ -9,10 +9,18 @@ body {
     background-color: #f8f9fa;
 }
 
+/*main {
+    padding-top: 80px;
+}*/
+
+
 #hero {
     position: relative;
-    height: 100vh;
+    /*height: 100vh;*/
     overflow: hidden;
+    min-height: 100dvh;
+    /* en lugar de height */
+    height: auto;
 }
 
 .hero-background-container {
@@ -51,6 +59,14 @@ body {
     padding: 2rem;
 }
 
+@media (max-width: 768px) {
+    .hero-content {
+        flex-direction: column-reverse;
+        /* texto arriba, imagen abajo */
+        text-align: center;
+    }
+}
+
 .header-bg {
     transition: background-color 0.3s ease-in-out;
 }
@@ -72,10 +88,17 @@ body {
 }
 
 #car-image {
-    width: 65%;
+    width: 70%;
     max-width: 700px;
     height: auto;
     animation: diamond-float 8s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+    #car-image {
+        width: 80%;
+        max-width: 350px;
+    }
 }
 
 @keyframes diamond-float {
@@ -113,8 +136,6 @@ body {
     position: relative;
 }
 
-
-
 /* Animación para los contadores al aparecer */
 .counter-container.animated {
     animation: bounceIn 1s ease-out;
@@ -136,8 +157,34 @@ body {
     }
 }
 
+/* Estilo de la paginación del carrusel */
+.flyers-carousel .swiper-pagination {
+    position: relative !important;
+    /* Saca los puntos de encima de las imágenes */
+    margin-top: 20px;
+    /* Espacio entre imágenes y paginación */
+    text-align: center;
+}
 
-/* Responsive */
+.flyers-carousel .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background-color: #5174a8;
+    /* gris claro para los inactivos */
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
+.flyers-carousel .swiper-pagination-bullet-active {
+    background-color: #22c55e;
+    /* verde Tailwind (green-500) */
+    transform: scale(1.2);
+    /* un poco más grande para resaltar */
+}
+
+
+
+/* Responsive móviles */
 @media (max-width: 768px) {
     .hero-content {
         flex-direction: column;
@@ -156,5 +203,21 @@ body {
 
     .parallax-section {
         min-height: 500px;
+    }
+}
+
+/* Responsive tablets (768px – 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero-content {
+        min-height: 80vh;
+        /* ocupa más alto de pantalla */
+        justify-content: center;
+        /* centrado vertical */
+    }
+
+    #car-image {
+        width: 80%;
+        /* un poco más compacto */
+        max-width: 500px;
     }
 }

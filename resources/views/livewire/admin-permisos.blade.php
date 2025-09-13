@@ -14,123 +14,119 @@
 
             <x-slot name="contenido">
                 @if (count($permisos))
-                    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="overflow-x-auto">
-                                <table class="w-full whitespace-nowrap rounded-lg overflow-hidden shadow">
-                                    <thead class="bg-slate-600 border-b font-bold text-white">
-                                        <tr>
-                                            <th scope="col"
-                                                class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
-                                                wire:click="order('id')">
-                                                Id
-                                                @if ($sort == 'id')
-                                                    @if ($direction == 'asc')
-                                                        <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                    @else
-                                                        <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                    @endif
-                                                @else
-                                                    <i class="fas fa-sort float-right mt-0.5"></i>
-                                                @endif
-                                            </th>
-                                            <th scope="col"
-                                                class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
-                                                wire:click="order('name')">
-                                                Nombre
-                                                @if ($sort == 'name')
-                                                    @if ($direction == 'asc')
-                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                    @else
-                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                    @endif
-                                                @else
-                                                    <i class="fas fa-sort float-right mt-0.5"></i>
-                                                @endif
-                                            </th>
-                                            <th scope="col"
-                                                class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
-                                                wire:click="order('descripcion')">
-                                                Descripcion
-                                                @if ($sort == 'descripcion')
-                                                    @if ($direction == 'asc')
-                                                        <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
-                                                    @else
-                                                        <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
-                                                    @endif
-                                                @else
-                                                    <i class="fas fa-sort float-right mt-0.5"></i>
-                                                @endif
-                                            </th>
-                                            <th scope="col"
-                                                class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
-                                                wire:click="order('created_at')">
-                                                Fecha de creación
-                                                @if ($sort == 'created_at')
-                                                    @if ($direction == 'asc')
-                                                        <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
-                                                    @else
-                                                        <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
-                                                    @endif
-                                                @else
-                                                    <i class="fas fa-sort float-right mt-0.5"></i>
-                                                @endif
-                                            </th>
-                                            <th scope="col"
-                                                class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
-                                                Acciones
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-300">
-                                        @foreach ($permisos as $item)
-                                            <tr tabindex="0"
-                                                class="focus:outline-none h-16 border border-slate-300 rounded hover:bg-gray-200">
-                                                <td
-                                                    class="text-sm text-gray-900 font-light px-6 py-4 text-left whitespace-nowrap">
-                                                    <div class="flex items-center">
-                                                        <p class="text-slate-900 p-1 bg-slate-200 rounded-md">
-                                                            {{ $item->id }}
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-2">
-                                                    <div class="flex items-center">
-                                                        <p class="text-sm font-medium leading-none text-gray-600 mr-2">
-                                                            {{ $item->name }}
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-2">
-                                                    <div class="flex items-center">
-                                                        <p class="text-sm leading-none text-gray-600 ml-2">
-                                                            {{ $item->descripcion ? $item->descripcion : 'Sin datos' }}
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-2">
-                                                    <div class="flex items-center">
-                                                        <p class="text-sm leading-none text-gray-600 ml-2">
-                                                            {{ $item->created_at->format('d-m-Y h:m:i a') }}
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="pl-2">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-sm leading-none text-gray-600 ml-2">
-                                                            <button wire:click="editarPermiso({{ $item->id }})"
-                                                                class="px-2 py-2 bg-slate-400 rounded-md flex items-center justify-center">
-                                                                <i class="fas fa-pen text-white"></i>
-                                                            </button>
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="overflow-x-auto bg-white rounded-lg shadow">
+                        <table class="w-full whitespace-nowrap rounded-lg overflow-hidden shadow">
+                            <thead class="bg-slate-600 border-b font-bold text-white">
+                                <tr>
+                                    <th scope="col"
+                                        class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
+                                        wire:click="order('id')">
+                                        Id
+                                        @if ($sort == 'id')
+                                            @if ($direction == 'asc')
+                                                <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                            @else
+                                                <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                            @endif
+                                        @else
+                                            <i class="fas fa-sort float-right mt-0.5"></i>
+                                        @endif
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
+                                        wire:click="order('name')">
+                                        Nombre
+                                        @if ($sort == 'name')
+                                            @if ($direction == 'asc')
+                                                <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                            @else
+                                                <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                            @endif
+                                        @else
+                                            <i class="fas fa-sort float-right mt-0.5"></i>
+                                        @endif
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
+                                        wire:click="order('descripcion')">
+                                        Descripcion
+                                        @if ($sort == 'descripcion')
+                                            @if ($direction == 'asc')
+                                                <i class="fas fa-sort-alpha-up-alt float-right mt-0.5"></i>
+                                            @else
+                                                <i class="fas fa-sort-alpha-down-alt float-right mt-0.5"></i>
+                                            @endif
+                                        @else
+                                            <i class="fas fa-sort float-right mt-0.5"></i>
+                                        @endif
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium font-semibold text-white px-6 py-4 text-left"
+                                        wire:click="order('created_at')">
+                                        Fecha de creación
+                                        @if ($sort == 'created_at')
+                                            @if ($direction == 'asc')
+                                                <i class="fas fa-sort-numeric-up-alt float-right mt-0.5"></i>
+                                            @else
+                                                <i class="fas fa-sort-numeric-down-alt float-right mt-0.5"></i>
+                                            @endif
+                                        @else
+                                            <i class="fas fa-sort float-right mt-0.5"></i>
+                                        @endif
+                                    </th>
+                                    <th scope="col"
+                                        class="text-sm font-medium font-semibold text-white px-6 py-4 text-left">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-300">
+                                @foreach ($permisos as $item)
+                                    <tr tabindex="0"
+                                        class="focus:outline-none h-16 border border-slate-300 rounded hover:bg-gray-200">
+                                        <td
+                                            class="text-sm text-gray-900 font-light px-6 py-4 text-left whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <p class="text-slate-900 p-1 bg-slate-200 rounded-md">
+                                                    {{ $item->id }}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="pl-2">
+                                            <div class="flex items-center">
+                                                <p class="text-sm font-medium leading-none text-gray-600 mr-2">
+                                                    {{ $item->name }}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="pl-2">
+                                            <div class="flex items-center">
+                                                <p class="text-sm leading-none text-gray-600 ml-2">
+                                                    {{ $item->descripcion ? $item->descripcion : 'Sin datos' }}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="pl-2">
+                                            <div class="flex items-center">
+                                                <p class="text-sm leading-none text-gray-600 ml-2">
+                                                    {{ $item->created_at->format('d-m-Y h:m:i a') }}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="pl-2">
+                                            <div class="flex items-center justify-center">
+                                                <p class="text-sm leading-none text-gray-600 ml-2">
+                                                    <button wire:click="editarPermiso({{ $item->id }})"
+                                                        class="px-2 py-2 bg-slate-400 rounded-md flex items-center justify-center">
+                                                        <i class="fas fa-pen text-white"></i>
+                                                    </button>
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                     {{-- Paginacion --}}
                     @if ($permisos->hasPages())

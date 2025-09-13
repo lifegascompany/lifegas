@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Conversion;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
@@ -21,6 +22,9 @@ class ListaConversiones extends Component
     public $fecha_fin;
     public $estado;
 
+    // Carga el usuario autenticado
+    public $user;
+
 
     // Método para escuchar el evento 'refreshList' de otros componentes
     #[On('refreshList')]
@@ -36,6 +40,7 @@ class ListaConversiones extends Component
         $this->direction = 'desc';
         $this->sort = 'id';
         $this->cant = 10;
+        $this->user = Auth::user();
     }
 
     public function order($sort)
@@ -97,9 +102,12 @@ class ListaConversiones extends Component
 
     public function render()
     {
-        $conversiones = Conversion::with(['expediente', 'tecnico'])
+        $conversiones = Conversion::with(['expediente.vehiculo', 'tecnico'])
             ->buscar($this->search)
             ->estado($this->es)
+            ->when($this->user->hasRole('Tecnico'), function ($q) {
+                $q->where('tecnico_id', $this->user->id);
+            })
             ->ordenar($this->sort, $this->direction)
             ->paginate($this->cant);
         

@@ -9,7 +9,7 @@
         <title>Lifegas</title>
         <!-- Este es el app.blade.php de components/layouts -->
 
-        <title>{{ $title ?? 'Page Title' }}</title>
+        {{--<title>{{ $title ?? 'Page Title' }}</title>--}}
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

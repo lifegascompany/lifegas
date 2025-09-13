@@ -1,91 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-    <title>FICHA TÉCNICA DEL VEHÍCULO</title>
+    <meta charset="UTF-8">
+    <title>Manual y Mantenimiento</title>
     <style>
-        @page {
-            size: A4 landscape;
-            margin: 1cm 1.5cm;
-            font-family: sans-serif;
-        }
-
-        p {
-            font-size: 12px;
-            margin: 0;
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11.3pt;
+            /* un poco más grande que 11pt */
+            margin: 22px 30px;
+            /* margen equilibrado */
+            line-height: 1.35;
+            /* menos espaciado que 1.5 */
         }
 
         .section-title {
             background-color: #d1d5db;
             padding: 5px;
-            font-size: 14px;
+            font-size: 13pt;
+            /* ligeramente más grande */
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
         }
 
-        table {
+        .info-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
-        td {
-            font-size: 10px;
-            padding: 4px 8px 4px 0;
-            white-space: nowrap;
-            vertical-align: bottom;
+        .info-table th {
+            text-align: left;
+            width: 40%;
+            padding: 5px 8px;
+            font-weight: bold;
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #ddd;
+            font-size: 10.8pt;
         }
 
-        .line {
-            display: inline-block;
-            border-bottom: 1px solid #000;
-            min-width: 100px;
-            width: 100%;
+        .info-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #ddd;
+            font-size: 10.8pt;
         }
 
-        .separator-line {
-            border-top: 1px solid #000;
-            margin-top: 2cm;
-            padding-top: 10px;
+        .firma {
+            margin-top: 100px;
             text-align: center;
-            font-size: 12px;
+        }
+
+        .firma .linea {
+            margin-top: 35px;
+            border-top: 1px solid #000;
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .firma p {
+            margin-top: 6px;
+            font-weight: bold;
+            font-size: 10.8pt;
         }
     </style>
+
+
 </head>
 
 <body>
     <main>
+        <!-- Título -->
         <div class="section-title">DATOS DEL CLIENTE Y VEHÍCULO</div>
 
-        <table>
+        <!-- Tabla de datos -->
+        <table class="info-table">
             <tr>
-                <td colspan="3">Apellidos / Nombres o Razón Social: <span class="line"></span></td>
+                <th>Apellidos / Nombres o Razón Social:</th>
+                <td>{{ $vehiculo->cliente->nombre ?? '---' }}</td>
             </tr>
             <tr>
-                <td style="width: 35%;">DNI / CE / RUC: <span class="line"></span></td>
-                <td colspan="2">Dirección: <span class="line"></span></td>
+                <th>DNI / CE / RUC:</th>
+                <td>{{ $vehiculo->cliente->documento ?? '---' }}</td>
             </tr>
             <tr>
-                <td style="width: 30%;">Distrito: <span class="line"></span></td>
-                <td style="width: 30%;">Provincia: <span class="line"></span></td>
-                <td>Departamento: <span class="line"></span></td>
+                <th>Dirección:</th>
+                <td>{{ $vehiculo->cliente->direccion ?? '---' }}</td>
             </tr>
             <tr>
-                <td colspan="3">Marca / Modelo / Año del vehículo: <span class="line"></span></td>
+                <th>Marca / Modelo / Año:</th>
+                <td>{{ $vehiculo->marca }} / {{ $vehiculo->modelo }} / {{ $vehiculo->anio }}</td>
             </tr>
             <tr>
-                <td style="width: 60%;">Cilindrada: <span class="line"></span></td>
-                <td colspan="2">Placa: <span class="line"></span></td>
+                <th>Cilindrada:</th>
+                <td>{{ $vehiculo->cilindrada }}</td>
             </tr>
             <tr>
-                <td colspan="3">Alimentación: Dual Gasolina - <span class="line"></span></td>
+                <th>Placa:</th>
+                <td>{{ $vehiculo->placa }}</td>
             </tr>
             <tr>
-                <td colspan="3">Tanque: (GLP O GNV) <span class="line"></span></td>
+                <th>Color:</th>
+                <td>{{ $vehiculo->color }}</td>
+            </tr>
+            <tr>
+                <th>Alimentación:</th>
+                <td>Dual Gasolina – {{ $vehiculo->alimentacion ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Tanque (GLP/GNV):</th>
+                <td>{{ $vehiculo->tanque ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Marca / Modelo / N° Serie:</th>
+                <td>{{ $vehiculo->Tanquemarca }} / {{ $vehiculo->Tanquemodelo }} / {{ $vehiculo->Tanqueserie }}</td>
+            </tr>
+            <tr>
+                <th>N° Constancia de Aprobación / N° Expediente:</th>
+                <td>{{ $vehiculo->Tanqueaprobacion }} / {{ $vehiculo->Tanqueexpediente }}</td>
+            </tr>
+            <tr>
+                <th>Multiválvulas Tipo y Medida:</th>
+                <td>{{ $vehiculo->multivalvulas ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Toma de carga Tipo:</th>
+                <td>{{ $vehiculo->toma ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Tipo de equipo:</th>
+                <td>{{ $vehiculo->equipo ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Reductor Marca / Tipo / N° Serie:</th>
+                <td>{{ $vehiculo->Equipomarca }} / {{ $vehiculo->Equipomodelo }} / {{ $vehiculo->Equiposerie }}</td>
+            </tr>
+            <tr>
+                <th>N° Constancia de Aprobación / N° Expediente:</th>
+                <td>{{ $vehiculo->Equipoaprobacion }} / {{ $vehiculo->Equipoexpediente }}</td>
+            </tr>
+            <tr>
+                <th>Central de Control conmutación tipo / Electrónica adicional:</th>
+                <td>{{ $vehiculo->central }} / {{ $vehiculo->electronica }}</td>
+            </tr>
+            <tr>
+                <th>Otros dispositivos instalados:</th>
+                <td>{{ $vehiculo->otros }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de Instalación:</th>
+                <td>{{ $vehiculo->expediente->created_at->format('d/m/Y') ?? '---' }}</td>
+            </tr>
+            <tr>
+                <th>Kilometraje Actual:</th>
+                <td>{{ $vehiculo->kilometraje ?? '---' }}</td>
             </tr>
         </table>
 
-        <div class="separator-line">
+        <!-- Firma -->
+        <div class="firma">
+            <div class="linea"></div>
             <p>Sello y firma del taller</p>
         </div>
     </main>

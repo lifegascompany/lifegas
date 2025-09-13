@@ -284,6 +284,54 @@ ADD CONSTRAINT fk_expediente_cita FOREIGN KEY (cita_id) REFERENCES citas(id) ON 
 
 
 
+-- Crear tabla para detalles de evaluación
+CREATE TABLE detalles_evaluacion (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    evaluacion_id BIGINT UNSIGNED NOT NULL,
+    
+    tarjeta_propiedad BOOLEAN NULL,
+    soat BOOLEAN NULL,
+    llave_contacto BOOLEAN NULL,
+    espejos BOOLEAN NULL,
+    antena BOOLEAN NULL,
+    plumillas BOOLEAN NULL,
+    vasos BOOLEAN NULL,
+    emblemas BOOLEAN NULL,
+    tapa_combustible BOOLEAN NULL,
+    bateria BOOLEAN NULL,
+    seguro_bateria BOOLEAN NULL,
+    claxon BOOLEAN NULL,
+    tapa_aceite BOOLEAN NULL,
+    tapa_radiador BOOLEAN NULL,
+    barita_capot BOOLEAN NULL,
+    espejo_anterior BOOLEAN NULL,
+    tapasoles BOOLEAN NULL,
+    radio BOOLEAN NULL,
+    reproductor_cd BOOLEAN NULL,
+    parlantes BOOLEAN NULL,
+    cenicero BOOLEAN NULL,
+    encendedor BOOLEAN NULL,
+    pisos BOOLEAN NULL,
+    fundas_forros BOOLEAN NULL,
+    cinturones BOOLEAN NULL,
+    llanta_repuesto BOOLEAN NULL,
+    gata_palanca BOOLEAN NULL,
+    llave_ruedas BOOLEAN NULL,
+    triangulo BOOLEAN NULL,
+    extintor BOOLEAN NULL,
+    linterna BOOLEAN NULL,
+    herramientas BOOLEAN NULL,
+    botiquin BOOLEAN NULL,
+    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_detalles_evaluacion_evaluacion FOREIGN KEY (evaluacion_id) REFERENCES evaluaciones(id) ON DELETE CASCADE
+);
+
+
+
+
 
 
 

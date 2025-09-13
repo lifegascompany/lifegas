@@ -19,6 +19,10 @@ class Evaluacion extends Model
         'observaciones',
     ];
 
+    protected $casts = [
+        'fecha_evaluacion' => 'date',
+    ];
+
     public function expediente()
     {
         return $this->belongsTo(Expediente::class, 'expediente_id');
@@ -27,6 +31,11 @@ class Evaluacion extends Model
     public function tecnico()
     {
         return $this->belongsTo(User::class, 'tecnico_id');
+    }
+
+    public function detalles()
+    {
+        return $this->hasOne(DetalleEvaluacion::class, 'evaluacion_id');
     }
 
     /*public function conversiones()

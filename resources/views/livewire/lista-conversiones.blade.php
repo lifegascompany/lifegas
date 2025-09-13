@@ -17,23 +17,23 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">#</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Vehículo</th>
                                     <!--<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Asesor</th>-->
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tecnico</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Inicio</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Fin</th>                                    
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documentos</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Inicio</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha Fin</th>                                    
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Documentos</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Creación</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                                    <th class="px-8 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach ($conversiones as $conve)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 text-sm text-gray-500">{{ $conve->id ?? null }}</td>
+                                        <td class="px-4 py-4 text-sm text-gray-500">{{ $conve->id ?? null }}</td>
                                         <td class="px-6 py-4 text-sm font-medium text-gray-900">
                                             {{ $conve->expediente->cliente->nombre . ' ' . $conve->expediente->cliente->apellido }}
                                         </td>
@@ -64,13 +64,13 @@
                                                 {{ $labels[$conve->estado] ?? 'Desconocido' }}
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-500">
+                                        <td class="px-4 py-4 text-sm text-gray-500">
                                             {{ $conve->fecha_inicio }}
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-500">
+                                        <td class="px-4 py-4 text-sm text-gray-500">
                                             {{ $conve->fecha_fin }}
                                         </td>                                        
-                                        <td class="px-6 py-4 text-sm">
+                                        <td class="px-4 py-4 text-sm">
                                             <div class="relative text-center" x-data="{ menu: false }">
                                                 <!-- Boton -->
                                                 <button type="button" x-on:click="menu = ! menu" id="menu-button"
@@ -94,25 +94,28 @@
                                                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button"
                                                     tabindex="-1">
                                                     <div class="" role="none">
-                                                        <a href="{{ route('manual.pdf', $conve->id) }}" target="__blank"
+                                                        <!-- Carta garantia muestra datos de vehiculo -->
+                                                        <a href="{{ route('vehiculo.pdf', $conve->expediente->vehiculo->id) }}" target="__blank"
+                                                            rel="noopener noreferrer"
+                                                            class="flex px-4 py-2 text-sm text-blue-600 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
+                                                            <i class="fa-solid fa-clipboard-list"></i>
+                                                            <span>Carta de Garantia</span>
+                                                        </a>
+                                                        <!-- Carta garantia muestra datos de vehiculo -->
+                                                        <a href="{{ route('manual.pdf', $conve->expediente->vehiculo->id) }}" target="__blank"
                                                             rel="noopener noreferrer"
                                                             class="flex px-4 py-2 text-sm text-blue-600 hover:bg-slate-600 hover:text-white justify-between items-center rounded-t-md hover:cursor-pointer">
                                                             <i class="fa-solid fa-clipboard-list"></i>
-                                                            <span>Manual Conversion</span>
+                                                            <span>Manual y Mantenimiento</span>
                                                         </a>
-                                                        
+                                                        <!-- Si pasamos id de Conversion ya que conversion esta relacionado con repuestos -->
                                                         <a href="{{ route('ordenRepuestos.pdf', ['id' => $conve->id]) }}" target="_blank"
                                                             rel="noopener noreferrer"
                                                             class="flex px-4 py-2 text-sm text-blue-600 hover:bg-slate-600 hover:text-white justify-between items-center rounded-t-md hover:cursor-pointer">
                                                             <i class="fa-solid fa-clipboard-list"></i>
-                                                            <span>Ordn.Repuestos</span>
+                                                            <span>Ordn Repuestos y Acces</span>
                                                         </a>
-                                                        <a href="{{ route('vehiculo.pdf', $conve->id) }}" target="__blank"
-                                                            rel="noopener noreferrer"
-                                                            class="flex px-4 py-2 text-sm text-blue-600 hover:bg-slate-600 hover:text-white justify-between items-center hover:cursor-pointer">
-                                                            <i class="fa-solid fa-clipboard-list"></i>
-                                                            <span>Carta Garantia</span>
-                                                        </a>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -146,18 +149,6 @@
                                                         </span>
                                                     </div>
                                                 @endhasanyrole
-                                                <!-- Pdf Orden Repuestos
-                                                <div class="relative group">
-                                                    <a href="{{ route('ordenRepuestos.pdf', ['id' => $conve->id]) }}"
-                                                        target="_blank"
-                                                        class="py-1 px-2 text-center rounded-md bg-red-500 font-bold text-black cursor-pointer hover:bg-red-600">
-                                                        <i class="fa-solid fa-clipboard-list"></i>
-                                                    </a>
-                                                    <span
-                                                        class="absolute bottom-full  mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
-                                                        Pdf.Ordn
-                                                    </span>
-                                                </div> -->
                                             </div>
                                         </td>
                                     </tr>

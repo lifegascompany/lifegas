@@ -109,7 +109,7 @@
                         </div>
                     @endif
                 @else
-                    <div class="px-6 py-4 text-center font-bold bg-indigo-200 rounded-md">
+                    <div class="px-6 py-4 text-center font-bold bg-teal-100 rounded-md">
                         No se encontró ningún registro.
                     </div>
                 @endif

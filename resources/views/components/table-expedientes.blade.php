@@ -11,7 +11,7 @@
             <!-- Mostrar entradas -->
             <div class="flex bg-gray-50 items-center p-2 rounded-md">
                 <span>Mostrar</span>
-                <select wire:model="cant" class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-20">
+                <select wire:model="cant" class="bg-gray-50 mx-2 border border-teal-500 rounded-md outline-none w-20">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
@@ -23,7 +23,7 @@
             <!-- Estado -->
             <div class="flex bg-gray-50 items-center p-2 rounded-md">
                 <span>Estado:</span>
-                <select wire:model.live="es" class="bg-gray-50 mx-2 border border-indigo-500 rounded-md outline-none w-40">
+                <select wire:model.live="es" class="bg-gray-50 mx-2 border border-teal-500 rounded-md outline-none w-40">
                     <option value="">SELECCIONE</option>
                     <option value="en_evaluacion">En Evaluación</option>
                     <option value="evaluacion_rechazada">Evaluación Rechazada</option>
@@ -46,7 +46,7 @@
                         clip-rule="evenodd" />
                 </svg>
                 <input type="text" wire:model.live="search"
-                    class="bg-gray-50 outline-none rounded-md border border-indigo-500 w-full ml-2"
+                    class="bg-gray-50 outline-none rounded-md border border-teal-500 w-full ml-2"
                     placeholder="Buscar...">
             </div>
         </div>

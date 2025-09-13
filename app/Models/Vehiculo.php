@@ -33,10 +33,16 @@ class Vehiculo extends Model
      *  hasOne asume que es un evento único y final que se aplica a un vehiculo.
      */
 
-    public function expediente()
+    /*public function expediente()
     {
         return $this->hasMany(Expediente::class, 'vehiculo_id');
+    }*/
+    // Si realmente solo hay un expediente por vehículo (relación 1 a 1), cambia la relación en el modelo:
+    public function expediente()
+    {
+        return $this->hasOne(Expediente::class, 'vehiculo_id');
     }
+
 
     public function fise()
     {

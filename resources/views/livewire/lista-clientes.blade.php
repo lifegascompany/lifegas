@@ -93,8 +93,8 @@
                         </div>
                     @endif
                 @else
-                    <div class="p-4 w-full bg-indigo-300 items-center flex justify-center rounded-lg">
-                        <p class="text-indigo-900 font-bold">No se encontró ningún cliente</p>
+                    <div class="px-6 py-4 text-center font-bold bg-teal-100 rounded-md">
+                        No se encontró ningún registro.
                     </div>
                 @endif
             </x-slot>

@@ -31,7 +31,7 @@ Change class "fixed" to "sticky" in "navbar" (l. 33) so the navbar doesn't hide 
     </style>
 
     <!-- Navbar start -->
-    <nav id="navbar" class="sticky top-0 z-40 flex w-full flex-row justify-between bg-gradient-to-r from-gray-400 to-slate-600 px-4 shadow-lg border-b border-gray-300">
+    <nav id="navbar" class="fixed top-0 z-40 flex w-full flex-row justify-between bg-gradient-to-r from-gray-400 to-slate-600 px-4 shadow-lg border-b border-gray-300">
         <button id="btnSidebarToggler" type="button" class="py-4 text-2xl text-white hover:text-gray-200">
             <svg id="navClosed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="h-8 w-8">

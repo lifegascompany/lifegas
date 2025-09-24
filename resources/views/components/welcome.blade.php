@@ -1,11 +1,26 @@
 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
     <!--x-application-logo class="block h-12 w-auto" /-->
-    <div class="mt-8 text-2xl">
+    <div class="text-2xl">
         Hola, {{ Auth::user()->name }} 👋
         <span> </span>
     </div>
+
+    <!-- Métricas principales -->
+    <livewire:dashboard-cards />
+
+    <!-- Gráficas -->
+    {{--<div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <livewire:dashboard-charts />
+    </div>
+
+    <!-- Listados rápidos -->
+    <div class="mt-6">
+        <livewire:dashboard-tables />
+    </div>--}}
+    
 </div>
 
+{{-- 
 <div class="divide-y-2 divide-gray-200">
     @hasanyrole('Administrador del sistema|vendedor|cliente')
         <div x-data="{ open: true }"
@@ -60,8 +75,8 @@
             </div>
         </div>
     @endhasanyrole
-
 </div>
+--}}
 
 {{--
 <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-6 lg:p-8">
